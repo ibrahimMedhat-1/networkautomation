@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:networkautomation/shared/features/authentication/view/login_page.dart';
 
 import '../manager/user_layout_cubit.dart';
 
@@ -28,7 +29,9 @@ class UserLayout extends StatelessWidget {
                       cubit.changePage(1);
                     },
                     child: const Text('Chat with Engineer')),
-                TextButton(onPressed: () {}, child: const Text('Logout')),
+                TextButton(onPressed: () {
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const LoginPage()));
+                }, child: const Text('Logout')),
               ],
             ),
             body: cubit.pages[cubit.page],

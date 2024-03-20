@@ -5,6 +5,7 @@ import 'package:networkautomation/shared/features/authentication/view/widgets/au
 import 'package:networkautomation/shared/features/authentication/view/widgets/custom_text_form.dart';
 import 'package:networkautomation/shared/features/authentication/view/widgets/welcome_widget.dart';
 
+import '../../../../2.user/layout/view/layout.dart';
 import '../manager/auth_cubit.dart';
 
 class LoginPage extends StatelessWidget {
@@ -100,9 +101,10 @@ class LoginPage extends StatelessWidget {
                                     ? const CircularProgressIndicator()
                                     : AuthButton(
                                         onTap: () {
-                                          if (formKey.currentState!.validate()) {
-                                            cubit.login(context);
-                                          }
+                                          // if (formKey.currentState!.validate()) {
+                                          //   cubit.login(context);
+                                          // }
+                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const UserLayout()));
                                         },
                                         text: 'Login',
                                       ),

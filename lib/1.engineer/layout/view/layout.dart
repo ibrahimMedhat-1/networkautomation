@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:networkautomation/1.engineer/layout/manager/engineer_layout_cubit.dart';
 
+import '../../../shared/features/authentication/view/login_page.dart';
+
 class EngineerLayout extends StatelessWidget {
   const EngineerLayout({super.key});
 
@@ -18,7 +20,10 @@ class EngineerLayout extends StatelessWidget {
               leading: const CircleAvatar(),
               actions: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const LoginPage()));
+
+                  },
                   child: const Text('LogOut'),
                 ),
               ],

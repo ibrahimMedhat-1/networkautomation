@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:networkautomation/shared/features/chat/view/chat_page.dart';
+import 'package:networkautomation/1.engineer/layout/view/layout.dart';
+
 
 import 'firebase_options.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      home: const ChatPage(),
+      home: const EngineerLayout(),
     );
   }
 }

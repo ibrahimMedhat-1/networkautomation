@@ -11,50 +11,52 @@ class ClientDataPage extends StatelessWidget {
       appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 200,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const CircleAvatar(
-                    radius: 120,
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Karim",
-                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 30),
-                        ),
-                        Text(
-                          'Business Name',
-                          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 30),
-                        ),
-                      ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 200,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const CircleAvatar(
+                      radius: 120,
                     ),
-                  ),
-                  MaterialButton(
-                    color: Colors.blue,
-                    textColor: Colors.white,
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (builder) => const ChatPage()));
-                    },
-                    child: const Text(
-                      'Chat',
-                      style: TextStyle(fontSize: 30),
+                    Expanded(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Karim",
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 30),
+                          ),
+                          Text(
+                            'Business Name',
+                            style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 30),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                    MaterialButton(
+                      color: Colors.blue,
+                      textColor: Colors.white,
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (builder) => const ChatPage()));
+                      },
+                      child: const Text(
+                        'Chat',
+                        style: TextStyle(fontSize: 30),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const FormWidget(isEngineer: true),
-          ],
+              const FormWidget(isEngineer: true),
+            ],
+          ),
         ),
       ),
     );

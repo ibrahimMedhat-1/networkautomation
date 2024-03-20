@@ -21,6 +21,7 @@ class ChatPage extends StatelessWidget {
         builder: (context, state) {
           final ChatCubit cubit = ChatCubit.get(context);
           return Scaffold(
+            appBar: AppBar(),
             body: SafeArea(
               child: Column(
                 children: [
