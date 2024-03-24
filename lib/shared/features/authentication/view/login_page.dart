@@ -5,6 +5,7 @@ import 'package:networkautomation/shared/features/authentication/view/widgets/au
 import 'package:networkautomation/shared/features/authentication/view/widgets/custom_text_form.dart';
 import 'package:networkautomation/shared/features/authentication/view/widgets/welcome_widget.dart';
 
+import '../../../../1.engineer/layout/view/layout.dart';
 import '../../../../2.user/layout/view/layout.dart';
 import '../manager/auth_cubit.dart';
 
@@ -104,7 +105,15 @@ class LoginPage extends StatelessWidget {
                                           // if (formKey.currentState!.validate()) {
                                           //   cubit.login(context);
                                           // }
-                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const UserLayout()));
+                                          if (cubit.checkBoxValue) {
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (builder) => const EngineerLayout()));
+                                          } else {
+                                            Navigator.pushReplacement(context,
+                                                MaterialPageRoute(builder: (builder) => const UserLayout()));
+                                          }
                                         },
                                         text: 'Login',
                                       ),
