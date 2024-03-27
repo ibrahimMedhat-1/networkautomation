@@ -12,10 +12,10 @@ class UserHomePage extends StatelessWidget {
         children: [
           Stepper(
             onStepTapped: null,
-            currentStep: 4,
-            controlsBuilder: (context, details) => const Align(alignment: Alignment.centerLeft, child: SizedBox()),
+            currentStep: 3,
+            controlsBuilder: (context, details) =>
+                const Align(alignment: Alignment.centerLeft, child: SizedBox()),
             steps: [
-              const Step(title: Text('Reviewing you form'), content: SizedBox()),
               const Step(title: Text('Reviewing your form'), content: SizedBox()),
               const Step(title: Text('Implementing your network'), content: SizedBox()),
               const Step(title: Text('Delivering your network file '), content: SizedBox()),

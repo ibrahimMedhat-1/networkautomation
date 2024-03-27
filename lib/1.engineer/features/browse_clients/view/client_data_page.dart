@@ -55,6 +55,14 @@ class ClientDataPage extends StatelessWidget {
                 ),
               ),
               const FormWidget(isEngineer: true),
+              MaterialButton(
+                height: 100,
+                minWidth: double.infinity,
+                color: Colors.blue,
+                textColor: Colors.white,
+                onPressed: () {},
+                child: const Text('Upload Network File'),
+              )
             ],
           ),
         ),
