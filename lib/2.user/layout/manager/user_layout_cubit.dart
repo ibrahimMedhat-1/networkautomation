@@ -10,9 +10,9 @@ class UserLayoutCubit extends Cubit<UserLayoutState> {
 
   static UserLayoutCubit get(context) => BlocProvider.of(context);
 
-  List<Widget> pages = const [
-    UserHomePage(),
-    ChatPage(),
+  List<Widget> pages =  [
+    const UserHomePage(),
+    const ChatPage(),
   ];
   int page = 0;
 

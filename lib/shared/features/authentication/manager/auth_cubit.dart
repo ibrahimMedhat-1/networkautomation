@@ -7,6 +7,8 @@ import 'package:networkautomation/1.engineer/layout/view/layout.dart';
 import 'package:networkautomation/shared/network/cached_preference.dart';
 
 import '../../../../2.user/layout/view/layout.dart';
+import '../../../../models/user_model.dart';
+import '../../../constants.dart';
 
 part 'auth_state.dart';
 
@@ -44,9 +46,6 @@ class AuthCubit extends Cubit<AuthState> {
       if (checkBoxValue) {
         FirebaseFirestore.instance.collection('engineers').doc(value.user!.uid).get().then((value) async {
           if (value.data() != null) {
-            // await cachingUser(value, CacheKeys.engineerId);
-            // Constants.doctorModel =
-            //     DoctorModel.fromCache(jsonDecode(await CacheHelper.getData(key: CacheKeys.doctorId)));
             emit(LoginSuccessfully());
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (builder) => const EngineerLayout()));
@@ -57,9 +56,9 @@ class AuthCubit extends Cubit<AuthState> {
         });
       } else {
         FirebaseFirestore.instance.collection('users').doc(value.user!.uid).get().then((value) async {
+          Constants.userModel = UserModel.fromJson(value.data());
+
           if (value.data() != null) {
-            // await cachingUser(value, CacheKeys.userId);
-            // Constants.userModel = UserModel.fromJson(jsonDecode(await CacheHelper.getData(key: CacheKeys.userId)));
             emit(LoginSuccessfully());
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const UserLayout()));
           } else {
@@ -76,31 +75,37 @@ class AuthCubit extends Cubit<AuthState> {
 
   void signUp(BuildContext context) {
     emit(CreateUserLoading());
-    // FirebaseAuth.instance
-    //     .createUserWithEmailAndPassword(
-    //         email: emailAddressSignUpController.text.trim(), password: passwordSignUpController.text)
-    //     .then((value) async {
-    //   await FirebaseFirestore.instance
-    //       .collection('users')
-    //       .doc(value.user!.uid)
-    //       .set(UserModel(
-    //         value.user!.uid,
-    //         nameController.text,
-    //         emailAddressSignUpController.text,
-    //         phoneController.text,
-    //         null,
-    //       ).toMap())
-    //       .then((value) {
-    //     emit(CreateUserSuccessfully());
-    //     Navigator.pop(context);
-    //   }).catchError((onError) {
-    //     emit(CreateUserError());
-    //     Fluttertoast.showToast(msg: onError.message.toString());
-    //   });
-    // }).catchError((onError) {
-    //   emit(CreateUserError());
-    //   Fluttertoast.showToast(msg: onError.message.toString());
-    // });
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: emailAddressSignUpController.text.trim(), password: passwordSignUpController.text)
+        .then((value) async {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(value.user!.uid)
+          .set(UserModel(
+        id: value.user!.uid,
+           name:  nameController.text,
+           email:  emailAddressSignUpController.text,
+            phoneNo:  phoneController.text,
+            image: '',
+        computers: '',
+        desks: '',
+        floors: '',
+        rooms: '',
+        buisnessTitle: ''
+
+          ).toMap())
+          .then((value) {
+        emit(CreateUserSuccessfully());
+        Navigator.pop(context);
+      }).catchError((onError) {
+        emit(CreateUserError());
+        Fluttertoast.showToast(msg: onError.message.toString());
+      });
+    }).catchError((onError) {
+      emit(CreateUserError());
+      Fluttertoast.showToast(msg: onError.message.toString());
+    });
   }
 
   Future<void> cachingUser(DocumentSnapshot<Map<String, dynamic>> value, String userType) async {

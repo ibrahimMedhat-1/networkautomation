@@ -12,6 +12,7 @@ class TextFormFieldCustom extends StatelessWidget {
     this.onSubmitted,
     this.onChanged,
     this.flex = 1,
+     this.enabled,
   });
 
   final int flex;
@@ -21,6 +22,7 @@ class TextFormFieldCustom extends StatelessWidget {
   final void Function(String)? onSubmitted;
   final void Function(String)? onChanged;
   final Widget? prefixIcon;
+  final bool? enabled ;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +33,7 @@ class TextFormFieldCustom extends StatelessWidget {
         controller: controller,
         onFieldSubmitted: onSubmitted,
         decoration: InputDecoration(
+          enabled: enabled!,
           prefixIcon: prefixIcon,
           labelText: labelText,
           hintText: hintText,

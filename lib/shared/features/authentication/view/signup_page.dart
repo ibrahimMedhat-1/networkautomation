@@ -117,6 +117,7 @@ class SignUp extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: () async {
+
                                     Navigator.pop(context);
                                   },
                                   child: const Text('Login'),

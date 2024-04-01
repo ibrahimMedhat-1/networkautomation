@@ -1,9 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:networkautomation/models/user_model.dart';
 import 'package:networkautomation/shared/common_widgets/form_widget.dart';
 import 'package:networkautomation/shared/features/chat/view/chat_page.dart';
 
-class ClientDataPage extends StatelessWidget {
-  const ClientDataPage({super.key});
+class ClientDataPage extends StatefulWidget {
+  final UserModel userModel;
+
+  const ClientDataPage({super.key, required this.userModel});
+
+  @override
+  State<ClientDataPage> createState() => _ClientDataPageState();
+}
+
+class _ClientDataPageState extends State<ClientDataPage> {
+  TextEditingController computersController = TextEditingController();
+
+  TextEditingController floorsController = TextEditingController();
+
+  TextEditingController roomsController = TextEditingController();
+
+  TextEditingController desksController = TextEditingController();
+
+  TextEditingController buissnessTitleController = TextEditingController();
+
+  bool isDataAvailable = false;
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    computersController.text = widget.userModel.computers!;
+    floorsController.text = widget.userModel.floors!;
+    roomsController.text = widget.userModel.rooms!;
+    desksController.text = widget.userModel.desks!;
+    buissnessTitleController.text = widget.userModel.buisnessTitle!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +52,17 @@ class ClientDataPage extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const CircleAvatar(
+                    widget.userModel.image==""? CircleAvatar(
                       radius: 120,
+                      backgroundColor: Colors.blue.shade800,
+                      child: const Center(
+                        child: Icon(Icons.person,color: Colors.white,size: 100,),
+                      ),
+                    ):CircleAvatar(
+                      radius: 120,
+                      backgroundImage: NetworkImage( widget.userModel.image.toString()),
                     ),
+
                     Expanded(
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
@@ -30,7 +70,7 @@ class ClientDataPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Karim",
+                            widget.userModel.name!,
                             style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 30),
                           ),
                           Text(
@@ -54,7 +94,14 @@ class ClientDataPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const FormWidget(isEngineer: true),
+               FormWidget(isEngineer: true,
+              onPressed: (){},
+                 roomsController: roomsController,
+                 floorsController: floorsController,
+                 desksController: desksController,
+                 computersController: computersController,
+                 buisnessTitleController: buissnessTitleController,
+               ),
               MaterialButton(
                 height: 100,
                 minWidth: double.infinity,
