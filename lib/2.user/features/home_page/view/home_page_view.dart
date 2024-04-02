@@ -24,7 +24,6 @@ class UserHomePage extends StatelessWidget {
               children: [
                 Stepper(
                   onStepTapped: (step) {
-                    // Handle step tapping if needed
                   },
                   currentStep:activeStep,
                   controlsBuilder: (context, details) => const Align(

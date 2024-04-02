@@ -84,7 +84,7 @@ class _ClientDataPageState extends State<ClientDataPage> {
                       color: Colors.blue,
                       textColor: Colors.white,
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (builder) => const ChatPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (builder) =>  ChatPage(chatUserModel: widget.userModel,)));
                       },
                       child: const Text(
                         'Chat',

@@ -13,6 +13,7 @@ class ClientsCubit extends Cubit<ClientsState> {
     FirebaseFirestore.instance.collection('users').get().then((value) {
       for (var element in value.docs) {
         clients.add(UserModel.fromJson(element.data()));
+
       }
       emit(GetAllClientsSuccessfully());
     }).catchError((onError) {

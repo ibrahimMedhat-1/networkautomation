@@ -1,19 +1,19 @@
+import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:meta/meta.dart';
 
 import '../../../../models/message_model.dart';
-import 'package:intl/intl.dart';
+import '../../../../shared/constants.dart';
 
-import '../../../constants.dart';
+part 'user_chat_state.dart';
 
+class UserChatCubit extends Cubit<UserChatState> {
+  UserChatCubit() : super(UserChatInitial());
 
-part 'chat_state.dart';
-
-class ChatCubit extends Cubit<ChatState> {
-  ChatCubit() : super(ChatInitial());
-
-  static ChatCubit get(context) => BlocProvider.of(context);
+  static UserChatCubit get(context) => BlocProvider.of(context);
   final TextEditingController messageController = TextEditingController();
   List<MessageModel> chatMessage = [];
   List<MessageModel> reversedChatMessage = [];
@@ -21,7 +21,7 @@ class ChatCubit extends Cubit<ChatState> {
 
   void sendMessage(MessageModel message) {
     FirebaseFirestore.instance
-        .collection('engineers')
+        .collection('users')
         .doc(message.senderId)
         .collection('chat')
         .doc(message.receiverId)
@@ -31,41 +31,40 @@ class ChatCubit extends Cubit<ChatState> {
     });
     var inUserDocument = FirebaseFirestore.instance
         .collection('users')
-        .doc(message.receiverId)
-        .collection('chat')
         .doc(message.senderId)
+        .collection('chat')
+        .doc(message.receiverId)
         .collection('messages')
         .doc();
     inUserDocument.set(message.toMap(inUserDocument.id));
-    var inDoctorDocument = FirebaseFirestore.instance
-        .collection('engineers')
-        .doc(message.senderId)
-        .collection('chat')
-        .doc(message.receiverId)
-        .collection('messages')
-        .doc();
-    inDoctorDocument.set(message.toMap(inDoctorDocument.id));
     FirebaseFirestore.instance
-        .collection('users')
+        .collection('engineers')
         .doc(message.receiverId)
         .collection('chat')
         .doc(message.senderId)
         .set({
       'lastMessage': message.text,
-      'name': Constants.engModel!.name,
+      'name': Constants.userModel!.name,
+      'image': Constants.userModel!.image,
       'lastMessageDate': DateFormat('hh:mm').format(DateTime.now()),
-      'id': Constants.engModel!.id,
+      'id': Constants.userModel!.id,
     });
+    var inDoctorDocument = FirebaseFirestore.instance
+        .collection('engineers')
+        .doc(message.receiverId)
+        .collection('chat')
+        .doc(message.senderId)
+        .collection('messages')
+        .doc();
+    inDoctorDocument.set(message.toMap(inDoctorDocument.id));
   }
 
-  void getMessages(userId) {
-    print(Constants.engModel!.id);
-    print(userId);
+  void getMessages(doctorId) {
     FirebaseFirestore.instance
-        .collection('engineers')
-        .doc(Constants.engModel!.id)
+        .collection('users')
+        .doc(Constants.userModel!.id)
         .collection('chat')
-        .doc(userId)
+        .doc(doctorId)
         .collection('messages')
         .orderBy('date')
         .snapshots()
@@ -73,9 +72,9 @@ class ChatCubit extends Cubit<ChatState> {
       chatMessage.clear();
       for (var element in event.docs) {
         chatMessage.add(MessageModel.fromJson(element.data()));
+        emit(GetAllMessagesSuccessfully());
       }
       reversedChatMessage = chatMessage.reversed.toList();
-      emit(GetAllMessagesSuccessfully());
       scrollController.animateTo(
         double.minPositive,
         duration: const Duration(microseconds: 1),
@@ -84,4 +83,3 @@ class ChatCubit extends Cubit<ChatState> {
     });
   }
 }
-

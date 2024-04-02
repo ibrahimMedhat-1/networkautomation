@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:networkautomation/1.engineer/layout/view/layout.dart';
+import 'package:networkautomation/models/eng_model.dart';
 import 'package:networkautomation/shared/network/cached_preference.dart';
 
 import '../../../../2.user/layout/view/layout.dart';
@@ -45,6 +46,7 @@ class AuthCubit extends Cubit<AuthState> {
         .then((value) {
       if (checkBoxValue) {
         FirebaseFirestore.instance.collection('engineers').doc(value.user!.uid).get().then((value) async {
+          Constants.engModel = EngModel.fromJson(value.data());
           if (value.data() != null) {
             emit(LoginSuccessfully());
             Navigator.pushReplacement(
