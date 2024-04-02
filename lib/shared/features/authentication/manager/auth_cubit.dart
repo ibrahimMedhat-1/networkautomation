@@ -59,7 +59,8 @@ class AuthCubit extends Cubit<AuthState> {
       } else {
         FirebaseFirestore.instance.collection('users').doc(value.user!.uid).get().then((value) async {
           Constants.userModel = UserModel.fromJson(value.data());
-
+          print(value.data());
+          print(Constants.userModel!.steps);
           if (value.data() != null) {
             emit(LoginSuccessfully());
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (builder) => const UserLayout()));
@@ -85,18 +86,17 @@ class AuthCubit extends Cubit<AuthState> {
           .collection('users')
           .doc(value.user!.uid)
           .set(UserModel(
-        id: value.user!.uid,
-           name:  nameController.text,
-           email:  emailAddressSignUpController.text,
-            phoneNo:  phoneController.text,
-            image: '',
-        computers: '',
-        desks: '',
-        floors: '',
-        rooms: '',
-        buisnessTitle: ''
-
-          ).toMap())
+                  id: value.user!.uid,
+                  name: nameController.text,
+                  email: emailAddressSignUpController.text,
+                  phoneNo: phoneController.text,
+                  image: '',
+                  computers: '',
+                  desks: '',
+                  floors: '',
+                  rooms: '',
+                  buisnessTitle: '')
+              .toMap())
           .then((value) {
         emit(CreateUserSuccessfully());
         Navigator.pop(context);

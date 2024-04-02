@@ -11,24 +11,20 @@ class UserModel {
   String? buisnessTitle;
   int? steps;
 
-
-
   UserModel(
       {required this.id,
       required this.name,
       required this.email,
-     required this.phoneNo,
-        required this.image,
-        required this.rooms,
-        required this.computers,
-        required this.desks,
-        required this.floors,
-        required this.buisnessTitle,
-        this.steps
-      });
+      required this.phoneNo,
+      required this.image,
+      required this.rooms,
+      required this.computers,
+      required this.desks,
+      required this.floors,
+      required this.buisnessTitle,
+      this.steps});
 
   Map<String, dynamic> toMap() => {
-
         'id': id,
         'name': name,
         'email': email,
@@ -39,7 +35,6 @@ class UserModel {
         'desks': desks,
         'computers': computers,
         'buisnessTitle': buisnessTitle,
-
       };
 
   UserModel.fromJson(Map<String, dynamic>? json) {
@@ -53,5 +48,6 @@ class UserModel {
     desks = json['desks'];
     computers = json['computers'];
     buisnessTitle = json['buisnessTitle'];
+    steps = json['steps'];
   }
 }
