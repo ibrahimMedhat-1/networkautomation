@@ -8,13 +8,31 @@ part 'user_home_state.dart';
 
 class UserHomeCubit extends Cubit<UserHomeState> {
   UserHomeCubit() : super(UserHomeInitial());
+
   static UserHomeCubit get(context) => BlocProvider.of(context);
+
   TextEditingController computersController = TextEditingController();
   TextEditingController floorsController = TextEditingController();
   TextEditingController roomsController = TextEditingController();
   TextEditingController desksController = TextEditingController();
   TextEditingController buissnessTitleController = TextEditingController();
-  bool isDataAvailable = false;
+
+  String? pdfUrl;
+
+  void listenToStepsChanges() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(Constants.userModel!.id)
+        .snapshots()
+        .listen((snapshot) {
+      if (snapshot.exists) {
+        int steps = snapshot.get('steps');
+        Constants.userModel!.steps = steps;
+
+        emit(StepsUpdated(steps));
+      }
+    });
+  }
 
   void initialize() {
     computersController.text = Constants.userModel!.computers!;
@@ -22,25 +40,26 @@ class UserHomeCubit extends Cubit<UserHomeState> {
     roomsController.text = Constants.userModel!.rooms!;
     desksController.text = Constants.userModel!.desks!;
     buissnessTitleController.text = Constants.userModel!.buisnessTitle!;
+    pdfUrl = Constants.userModel?.fileURl;
+
+    // Listen to steps changes when initialized
+    listenToStepsChanges();
   }
 
-  void uploadData()async{
+  void uploadData() async {
     await FirebaseFirestore.instance
         .collection('users')
         .doc(Constants.userModel!.id)
         .update({
-      "steps":0,
-      "computers":computersController.text,
-      "desks":desksController.text,
-      "floors":floorsController.text,
-      "rooms":roomsController.text,
-      "buisnessTitle":buissnessTitleController.text,
-
-    })
-        .then((value) {
+      "steps": 1,
+      "computers": computersController.text,
+      "desks": desksController.text,
+      "floors": floorsController.text,
+      "rooms": roomsController.text,
+      "buisnessTitle": buissnessTitleController.text,
+    }).then((value) {
+      // Emit a new state after data is uploaded
       emit(UploadData());
     });
-
   }
-
 }

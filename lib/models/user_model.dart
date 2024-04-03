@@ -10,6 +10,7 @@ class UserModel {
   String? computers;
   String? buisnessTitle;
   int? steps;
+  String? fileURl;
 
   UserModel(
       {required this.id,
@@ -22,7 +23,9 @@ class UserModel {
       required this.desks,
       required this.floors,
       required this.buisnessTitle,
-      this.steps});
+      this.steps,
+        this.fileURl
+      });
 
   Map<String, dynamic> toMap() => {
         'id': id,
@@ -33,6 +36,7 @@ class UserModel {
         'floors': floors,
         'rooms': rooms,
         'desks': desks,
+        'fileURl': fileURl,
         'computers': computers,
         'buisnessTitle': buisnessTitle,
       };
@@ -49,5 +53,6 @@ class UserModel {
     computers = json['computers'];
     buisnessTitle = json['buisnessTitle'];
     steps = json['steps'];
+    fileURl = json['fileURl'];
   }
 }

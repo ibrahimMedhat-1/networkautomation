@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:networkautomation/models/user_model.dart';
 import 'package:networkautomation/shared/features/chat/view/widgets/chat_bubble.dart';
 
-import '../../../../models/chat_user_model.dart';
 import '../../../../models/message_model.dart';
 import '../../../../shared/styles/colors.dart';
 import '../../../constants.dart';
