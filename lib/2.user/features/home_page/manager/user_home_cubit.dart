@@ -27,7 +27,9 @@ class UserHomeCubit extends Cubit<UserHomeState> {
         .listen((snapshot) {
       if (snapshot.exists) {
         int steps = snapshot.get('steps');
+        String price = snapshot.get('price').toString();
         Constants.userModel!.steps = steps;
+        Constants.userModel!.price = price;
 
         emit(StepsUpdated(steps));
       }
@@ -47,10 +49,7 @@ class UserHomeCubit extends Cubit<UserHomeState> {
   }
 
   void uploadData() async {
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc(Constants.userModel!.id)
-        .update({
+    await FirebaseFirestore.instance.collection('users').doc(Constants.userModel!.id).update({
       "steps": 1,
       "computers": computersController.text,
       "desks": desksController.text,

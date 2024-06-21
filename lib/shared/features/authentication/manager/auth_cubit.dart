@@ -91,6 +91,7 @@ class AuthCubit extends Cubit<AuthState> {
                   email: emailAddressSignUpController.text,
                   phoneNo: phoneController.text,
                   image: '',
+                  price: '',
                   computers: '',
                   desks: '',
                   floors: '',

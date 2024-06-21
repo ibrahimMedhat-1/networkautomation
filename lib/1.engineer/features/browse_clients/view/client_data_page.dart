@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:networkautomation/1.engineer/features/browse_clients/manager/manager/clients_data_cubit.dart';
 import 'package:networkautomation/models/user_model.dart';
 import 'package:networkautomation/shared/common_widgets/form_widget.dart';
+import 'package:networkautomation/shared/common_widgets/text_form_field.dart';
 import 'package:networkautomation/shared/features/chat/view/chat_page.dart';
 
 class ClientDataPage extends StatefulWidget {
@@ -75,8 +76,7 @@ class _ClientDataPageState extends State<ClientDataPage> {
                                 )
                               : CircleAvatar(
                                   radius: 120,
-                                  backgroundImage: NetworkImage(
-                                      widget.userModel.image.toString()),
+                                  backgroundImage: NetworkImage(widget.userModel.image.toString()),
                                 ),
                           Expanded(
                             child: Column(
@@ -86,17 +86,11 @@ class _ClientDataPageState extends State<ClientDataPage> {
                               children: [
                                 Text(
                                   widget.userModel.name!,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(fontSize: 30),
+                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 30),
                                 ),
                                 Text(
-                                  'Business Name',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyLarge!
-                                      .copyWith(fontSize: 30),
+                                  buissnessTitleController.text,
+                                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 30),
                                 ),
                               ],
                             ),
@@ -125,7 +119,30 @@ class _ClientDataPageState extends State<ClientDataPage> {
                       onPressed: () {
                         print(widget.userModel.id!);
                         print(widget.userModel.steps!);
-                        cubit.setStep(widget.userModel.id!);
+                        showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Set Price'),
+                            content: TextFormFieldCustom(
+                              controller: cubit.priceController,
+                              enabled: true,
+                            ),
+                            actions: [
+                              MaterialButton(
+                                color: Colors.blue,
+                                textColor: Colors.white,
+                                onPressed: () async {
+                                  cubit.setStep(context, widget.userModel.id!).then((value) {
+                                    Navigator.pop(context);
+                                  });
+                                },
+                                child: cubit.isLoading
+                                    ? const CircularProgressIndicator()
+                                    : const Text('Continue'),
+                              )
+                            ],
+                          ),
+                        );
                       },
                       roomsController: roomsController,
                       floorsController: floorsController,

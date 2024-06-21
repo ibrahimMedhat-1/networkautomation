@@ -6,6 +6,7 @@ import 'package:networkautomation/2.user/features/home_page/manager/user_home_cu
 import 'package:networkautomation/shared/constants.dart';
 
 import '../../../../shared/common_widgets/form_widget.dart';
+import '../../../payment/view/payment_page.dart';
 
 class UserHomePage extends StatelessWidget {
   const UserHomePage({super.key});
@@ -21,9 +22,7 @@ class UserHomePage extends StatelessWidget {
           // TODO: implement listener
         },
         builder: (context, state) {
-          int activeStep = Constants.userModel!.steps == null
-              ? 0
-              : Constants.userModel!.steps!;
+          int activeStep = Constants.userModel!.steps == null ? 0 : Constants.userModel!.steps!;
 
           UserHomeCubit cubit = UserHomeCubit.get(context);
           return SingleChildScrollView(
@@ -50,7 +49,29 @@ class UserHomePage extends StatelessWidget {
                     Step(
                       isActive: activeStep == 2,
                       title: const Text('Implementing your network'),
-                      content: const SizedBox(),
+                      content: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('price: ${Constants.userModel!.price.toString()}'),
+                            MaterialButton(
+                              color: Colors.blue,
+                              textColor: Colors.white,
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PaymentPage(
+                                        totalAmount: Constants.userModel!.price.toString(),
+                                      ),
+                                    ));
+                              },
+                              child: const Text('Pay'),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     Step(
                       isActive: activeStep == 3,
@@ -65,7 +86,7 @@ class UserHomePage extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: TextButton(
                           onPressed: () {
-                            window.open(cubit.pdfUrl!, 'PDF Viewer');
+                            window.open(cubit.pdfUrl!, '');
                           },
                           child: const Text('Download your file'),
                         ),
